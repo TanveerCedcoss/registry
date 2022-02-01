@@ -1,0 +1,17 @@
+{
+  "title": "Location",
+  "description": "Ramp location",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string"
+    }
+  },
+  "x-tags": [
+    "Location"
+  ]
+}

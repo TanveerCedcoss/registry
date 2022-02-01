@@ -1,0 +1,17 @@
+{
+  "title": "Card Current Status",
+  "type": "object",
+  "description": "Current status of a card that contains real-time info.",
+  "properties": {
+    "amount_spent_on_card": {
+      "type": "number"
+    },
+    "locked_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "title": "Business Current Status",
+  "type": "object",
+  "description": "Current data about the business.",
+  "properties": {
+    "statement_balance": {
+      "type": "number"
+    },
+    "balance_including_pending": {
+      "type": "number"
+    },
+    "max_balance": {
+      "type": "number"
+    },
+    "next_billing_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "prev_billing_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "x-tags": [
+    "Business"
+  ]
+}

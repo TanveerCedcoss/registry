@@ -1,0 +1,97 @@
+{
+  "title": "User",
+  "description": "Ramp User",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "format": "uuid"
+    },
+    "email": {
+      "type": "string",
+      "minLength": 1,
+      "format": "email"
+    },
+    "first_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "last_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "role": {
+      "type": "string",
+      "minLength": 1,
+      "enum": [
+        "BUSINESS_ADMIN",
+        "BUSINESS_USER",
+        "BUSINESS_OWNER",
+        "BUSINESS_BOOKKEEPER"
+      ]
+    },
+    "phone": {
+      "type": "string",
+      "minLength": 1
+    },
+    "amount_limit": {
+      "type": "string"
+    },
+    "location_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "department_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "manager_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "business_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "is_manager": {
+      "type": [
+        "boolean"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "email",
+    "first_name",
+    "last_name",
+    "role",
+    "phone",
+    "amount_limit"
+  ],
+  "x-examples": {
+    "example-1": {
+      "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+      "email": "user@example.com",
+      "first_name": "string",
+      "last_name": "string",
+      "role": "BUSINESS_ADMIN",
+      "phone": "string",
+      "deleted": true,
+      "location_id": null,
+      "department_id": null,
+      "manager_id": null,
+      "business_id": "f59fcbb7-848d-4242-af07-a8bb7e3ab37c",
+      "is_manager": false
+    }
+  }
+}
