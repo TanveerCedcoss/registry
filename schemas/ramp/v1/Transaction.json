@@ -1,0 +1,240 @@
+{
+  "title": "Transaction",
+  "description": "Ramp transaction",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "type": "number"
+    },
+    "card_holder": {
+      "type": "object",
+      "required": [
+        "location_name",
+        "location_id",
+        "department_name",
+        "department_id",
+        "first_name",
+        "last_name"
+      ],
+      "properties": {
+        "location_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "location_id": {
+          "type": "string",
+          "minLength": 1,
+          "format": "uuid"
+        },
+        "department_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "department_id": {
+          "type": "string",
+          "minLength": 1,
+          "format": "uuid"
+        },
+        "first_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "last_name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "card_id": {
+      "type": "string",
+      "minLength": 1,
+      "format": "uuid"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "format": "uuid"
+    },
+    "merchant_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "merchant_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sk_category_id": {
+      "description": "Ramp-internal category id",
+      "type": "number"
+    },
+    "sk_category_name": {
+      "description": "Ramp-internal category name",
+      "type": "string",
+      "minLength": 1
+    },
+    "state": {
+      "type": "string",
+      "minLength": 1
+    },
+    "user_transaction_time": {
+      "type": "string",
+      "minLength": 1,
+      "format": "date-time"
+    },
+    "receipts": {
+      "description": "Receipts listed in ascending order by their creation time, related to the transaction.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "format": "uuid"
+      }
+    },
+    "memo": {
+      "type": "string"
+    },
+    "accounting_categories": {
+      "description": "Accounting categories related to the transaction.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category_id": {
+            "description": "User-selected category id for transaction",
+            "type": "string"
+          },
+          "category_name": {
+            "description": "User-selected category name for transaction",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "policy_violations": {
+      "description": "Policy violations listed in descending order by their creation time, related to the transaction.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "POLICY_VIOLATION_FROM_ADMIN",
+              "POLICY_VIOLATION_FROM_USER"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "memo": {
+            "type": "string",
+            "description": "Free form text regarding the policy violation."
+          }
+        }
+      }
+    },
+    "disputes": {
+      "description": "Disputes listed in descending order by their creation time, related to the transaction.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "MERCHANT_ERROR",
+              "UNRECOGNIZED_CHARGE",
+              "DISPUTE_CANCELLED",
+              "UNKNOWN"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "memo": {
+            "type": "string",
+            "description": "Free form text provided by the dispute initiator."
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "amount",
+    "card_holder",
+    "card_id",
+    "id",
+    "merchant_id",
+    "merchant_name",
+    "sk_category_id",
+    "sk_category_name",
+    "state",
+    "user_transaction_time"
+  ],
+  "x-tags": [
+    "Transaction"
+  ],
+  "x-examples": {
+    "example-1": {
+      "amount": 0,
+      "card_holder": {
+        "location_name": "string",
+        "location_id": "46910cc3-ab41-4b80-b4a7-94dab9f1b795",
+        "department_name": "string",
+        "department_id": "094fb5f1-8160-46ea-8cec-010c4b44e054",
+        "first_name": "string",
+        "last_name": "string"
+      },
+      "card_id": "66f6e46c-f6a1-4af8-a1bd-49666bc01304",
+      "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+      "merchant_id": 0,
+      "merchant_name": "string",
+      "sk_category_id": 0,
+      "sk_category_name": "string",
+      "state": "string",
+      "user_transaction_time": "2019-08-24T14:15:22Z",
+      "receipts": [
+        "66f6e46c-f6a1-4af8-a1bd-49666bcXXXXX"
+      ],
+      "policy_violations": [
+        {
+          "created_at": "2019-08-28T14:15:22Z",
+          "type": "POLICY_VIOLATION_FROM_USER",
+          "id": "66f67777-f6a1-4af8-XXXX-49666bcXXXXX",
+          "memo": "Sorry! This is a personal charge."
+        }
+      ],
+      "disputes": [
+        {
+          "created_at": "2019-08-28T14:15:22Z",
+          "type": "MERCHANT_ERROR",
+          "id": "66f6e46c-f6a1-4af8-XXXX-49666bcXXXXX",
+          "memo": "Order was canceled."
+        },
+        {
+          "created_at": "2019-08-29T16:16:26Z",
+          "type": "DISPUTE_CANCELLED",
+          "id": "66666666-f6a1-4af8-XXXX-49666bcXXXXX",
+          "memo": null
+        }
+      ],
+      "accounting_categories": [
+        {
+          "category_id": "123",
+          "category_name": "Office supplies"
+        }
+      ],
+      "memo": "string"
+    }
+  }
+}

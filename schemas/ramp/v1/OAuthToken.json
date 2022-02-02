@@ -1,0 +1,39 @@
+{
+  "title": "OAuth2 Token",
+  "type": "object",
+  "properties": {
+    "access_token": {
+      "type": "string"
+    },
+    "expires_in": {
+      "type": "integer",
+      "description": "Expiration time for access token in seconds"
+    },
+    "scope": {
+      "type": "string",
+      "description": "Space-separated set of strings representing accessible resources"
+    },
+    "token_type": {
+      "type": "string",
+      "enum": [
+        "Bearer"
+      ]
+    },
+    "refresh_token": {
+      "type": "string"
+    },
+    "refresh_token_expires_in": {
+      "type": "integer",
+      "description": "Expiration time for refresh token in seconds"
+    }
+  },
+  "required": [
+    "access_token",
+    "expires_in",
+    "scope",
+    "token_type"
+  ],
+  "x-tags": [
+    "Auth"
+  ]
+}
