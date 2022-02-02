@@ -1,0 +1,16 @@
+{
+  "description": "",
+  "properties": {
+    "document": {
+      "$ref": "#/components/schemas/legal_entity_company_verification_document"
+    }
+  },
+  "required": [
+    "document"
+  ],
+  "title": "LegalEntityCompanyVerification",
+  "type": "object",
+  "x-expandableFields": [
+    "document"
+  ]
+}
