@@ -1,0 +1,27 @@
+{
+  "title": "Receipt",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "transaction_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "user_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "receipt_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Pre-signed url to download receipt image"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
