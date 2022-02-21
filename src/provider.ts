@@ -12,6 +12,7 @@ export type SchemaPackage = OpenAPI3Schema;
 export interface Provider {
   getVersions: () => Promise<string[]>;
   getSchema: (version: string) => Promise<SchemaPackage>;
+  getSchemaWithoutCircularReferences(schema: OpenAPIV3.SchemaObject): OpenAPIV3.SchemaObject;
 }
 
 export function openAPIUrlProvider(
@@ -34,5 +35,8 @@ export function openAPIUrlProvider(
         value: !!transform ? await transform(data) : data,
       };
     },
+    getSchemaWithoutCircularReferences(schema: OpenAPIV3.SchemaObject): OpenAPIV3.SchemaObject {
+      return schema;
+    }
   };
 }
