@@ -66,17 +66,7 @@
             }
           }
         },
-        "required": [
-          "id",
-          "src",
-          "width",
-          "height",
-          "position",
-          "created_at",
-          "product_id",
-          "updated_at",
-          "variant_ids"
-        ]
+        "required": ["src"]
       }
     },
     "options": {
@@ -214,28 +204,7 @@
             "enum": ["shopify", "null"]
           }
         },
-        "required": [
-          "id",
-          "sku",
-          "grams",
-          "price",
-          "title",
-          "weight",
-          "barcode",
-          "taxable",
-          "position",
-          "created_at",
-          "product_id",
-          "updated_at",
-          "weight_unit",
-          "compare_at_price",
-          "inventory_policy",
-          "inventory_item_id",
-          "requires_shipping",
-          "inventory_quantity",
-          "fulfillment_service",
-          "inventory_management"
-        ]
+        "required": ["sku"]
       }
     },
     "vendor": {
