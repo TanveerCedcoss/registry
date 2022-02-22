@@ -243,17 +243,5 @@
       "description": "The name of the product's vendor."
     }
   },
-  "required": [
-    "body_html",
-    "created_at",
-    "handle",
-    "id",
-    "options",
-    "product_type",
-    "published_scope",
-    "status",
-    "title",
-    "variants",
-    "vendor"
-  ]
+  "required": ["title"]
 }
