@@ -17,12 +17,12 @@
       "type": "string"
     },
     "partner_id": {
-      "description": "an unique merchant ID assigned by Wechat Pay",
+      "description": "an unique merchant ID assigned by WeChat Pay",
       "maxLength": 5000,
       "type": "string"
     },
     "prepay_id": {
-      "description": "an unique trading ID assigned by Wechat Pay",
+      "description": "an unique trading ID assigned by WeChat Pay",
       "maxLength": 5000,
       "type": "string"
     },

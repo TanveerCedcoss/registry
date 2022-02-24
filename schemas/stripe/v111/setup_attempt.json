@@ -1,5 +1,5 @@
 {
-  "description": "A SetupIntent guides you through the process of setting up and saving a customer's payment credentials for future payments.\nFor example, you could use a SetupIntent to set up and save your customer's card without immediately collecting a payment.\nLater, you can use [PaymentIntents](https://stripe.com/docs/api#payment_intents) to drive the payment flow.\n\nCreate a SetupIntent as soon as you're ready to collect your customer's payment credentials.\nDo not maintain long-lived, unconfirmed SetupIntents as they may no longer be valid.\nThe SetupIntent then transitions through multiple [statuses](https://stripe.com/docs/payments/intents#intent-statuses) as it guides\nyou through the setup process.\n\nSuccessful SetupIntents result in payment credentials that are optimized for future payments.\nFor example, cardholders in [certain regions](/guides/strong-customer-authentication) may need to be run through\n[Strong Customer Authentication](https://stripe.com/docs/strong-customer-authentication) at the time of payment method collection\nin order to streamline later [off-session payments](https://stripe.com/docs/payments/setup-intents).\nIf the SetupIntent is used with a [Customer](https://stripe.com/docs/api#setup_intent_object-customer), upon success,\nit will automatically attach the resulting payment method to that Customer.\nWe recommend using SetupIntents or [setup_future_usage](https://stripe.com/docs/api#payment_intent_object-setup_future_usage) on\nPaymentIntents to save payment methods in order to prevent saving invalid or unoptimized payment methods.\n\nBy using SetupIntents, you ensure that your customers experience the minimum set of required friction,\neven as regulations change over time.\n\nRelated guide: [Setup Intents API](https://stripe.com/docs/payments/setup-intents).",
+  "description": "A SetupAttempt describes one attempted confirmation of a SetupIntent,\nwhether that confirmation was successful or unsuccessful. You can use\nSetupAttempts to inspect details of a specific attempt at setting up a\npayment method using a SetupIntent.",
   "properties": {
     "application": {
       "anyOf": [
@@ -11,28 +11,7 @@
           "type": "null"
         }
       ],
-      "description": "ID of the Connect application that created the SetupIntent."
-    },
-    "cancellation_reason": {
-      "description": "Reason for cancellation of this SetupIntent, one of `abandoned`, `requested_by_customer`, or `duplicate`.",
-      "enum": [
-        "abandoned",
-        "duplicate",
-        "requested_by_customer",
-        null
-      ],
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "client_secret": {
-      "description": "The client secret of this SetupIntent. Used for client-side retrieval using a publishable key.\n\nThe client secret can be used to complete payment setup from your frontend. It should not be stored, logged, embedded in URLs, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret.",
-      "maxLength": 5000,
-      "type": [
-        "string",
-        "null"
-      ]
+      "description": "The value of [application](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-application) on the SetupIntent at the time of this confirmation."
     },
     "created": {
       "description": "Time at which the object was created. Measured in seconds since the Unix epoch.",
@@ -49,22 +28,454 @@
           "type": "null"
         }
       ],
-      "description": "ID of the Customer this SetupIntent belongs to, if one exists.\n\nIf present, the SetupIntent's payment method will be attached to the Customer on successful setup. Payment methods attached to other Customers cannot be used with this SetupIntent."
-    },
-    "description": {
-      "description": "An arbitrary string attached to the object. Often useful for displaying to users.",
-      "maxLength": 5000,
-      "type": [
-        "string",
-        "null"
-      ]
+      "description": "The value of [customer](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-customer) on the SetupIntent at the time of this confirmation."
     },
     "id": {
       "description": "Unique identifier for the object.",
       "maxLength": 5000,
       "type": "string"
     },
-    "last_setup_error": {
+    "livemode": {
+      "description": "Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.",
+      "type": "boolean"
+    },
+    "object": {
+      "description": "String representing the object's type. Objects of the same type share the same value.",
+      "enum": [
+        "setup_attempt"
+      ],
+      "type": "string"
+    },
+    "on_behalf_of": {
+      "anyOf": [
+        {
+          "maxLength": 5000,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The value of [on_behalf_of](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-on_behalf_of) on the SetupIntent at the time of this confirmation."
+    },
+    "payment_method": {
+      "anyOf": [
+        {
+          "maxLength": 5000,
+          "type": "string"
+        }
+      ],
+      "description": "ID of the payment method used with this SetupAttempt."
+    },
+    "payment_method_details": {
+      "description": "",
+      "properties": {
+        "acss_debit": {
+          "description": "",
+          "properties": {},
+          "title": "setup_attempt_payment_method_details_acss_debit",
+          "type": "object"
+        },
+        "au_becs_debit": {
+          "description": "",
+          "properties": {},
+          "title": "setup_attempt_payment_method_details_au_becs_debit",
+          "type": "object"
+        },
+        "bacs_debit": {
+          "description": "",
+          "properties": {},
+          "title": "setup_attempt_payment_method_details_bacs_debit",
+          "type": "object"
+        },
+        "bancontact": {
+          "description": "",
+          "properties": {
+            "bank_code": {
+              "description": "Bank code of bank associated with the bank account.",
+              "maxLength": 5000,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "bank_name": {
+              "description": "Name of the bank associated with the bank account.",
+              "maxLength": 5000,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "bic": {
+              "description": "Bank Identifier Code of the bank associated with the bank account.",
+              "maxLength": 5000,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "generated_sepa_debit": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The ID of the SEPA Direct Debit PaymentMethod which was generated by this SetupAttempt."
+            },
+            "generated_sepa_debit_mandate": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The mandate for the SEPA Direct Debit PaymentMethod which was generated by this SetupAttempt."
+            },
+            "iban_last4": {
+              "description": "Last four characters of the IBAN.",
+              "maxLength": 5000,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "preferred_language": {
+              "description": "Preferred language of the Bancontact authorization page that the customer is redirected to.\nCan be one of `en`, `de`, `fr`, or `nl`",
+              "enum": [
+                "de",
+                "en",
+                "fr",
+                "nl",
+                null
+              ],
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "verified_name": {
+              "description": "Owner's verified full name. Values are verified or provided by Bancontact directly\n(if supported) at the time of authorization or settlement. They cannot be set or mutated.",
+              "maxLength": 5000,
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "title": "setup_attempt_payment_method_details_bancontact",
+          "type": "object"
+        },
+        "boleto": {
+          "description": "",
+          "properties": {},
+          "title": "setup_attempt_payment_method_details_boleto",
+          "type": "object"
+        },
+        "card": {
+          "description": "",
+          "properties": {
+            "three_d_secure": {
+              "anyOf": [
+                {
+                  "description": "",
+                  "properties": {
+                    "authentication_flow": {
+                      "description": "For authenticated transactions: how the customer was authenticated by\nthe issuing bank.",
+                      "enum": [
+                        "challenge",
+                        "frictionless",
+                        null
+                      ],
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "result": {
+                      "description": "Indicates the outcome of 3D Secure authentication.",
+                      "enum": [
+                        "attempt_acknowledged",
+                        "authenticated",
+                        "failed",
+                        "not_supported",
+                        "processing_error",
+                        null
+                      ],
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "x-stripeBypassValidation": true
+                    },
+                    "result_reason": {
+                      "description": "Additional information about why 3D Secure succeeded or failed based\non the `result`.",
+                      "enum": [
+                        "abandoned",
+                        "bypassed",
+                        "canceled",
+                        "card_not_enrolled",
+                        "network_not_supported",
+                        "protocol_error",
+                        "rejected",
+                        null
+                      ],
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "version": {
+                      "description": "The version of 3D Secure that was used.",
+                      "enum": [
+                        "1.0.2",
+                        "2.1.0",
+                        "2.2.0",
+                        null
+                      ],
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "x-stripeBypassValidation": true
+                    }
+                  },
+                  "title": "three_d_secure_details",
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Populated if this authorization used 3D Secure authentication."
+            }
+          },
+          "title": "setup_attempt_payment_method_details_card",
+          "type": "object"
+        },
+        "card_present": {
+          "description": "",
+          "properties": {
+            "generated_card": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The ID of the Card PaymentMethod which was generated by this SetupAttempt."
+            }
+          },
+          "title": "setup_attempt_payment_method_details_card_present",
+          "type": "object"
+        },
+        "ideal": {
+          "description": "",
+          "properties": {
+            "bank": {
+              "description": "The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, or `van_lanschot`.",
+              "enum": [
+                "abn_amro",
+                "asn_bank",
+                "bunq",
+                "handelsbanken",
+                "ing",
+                "knab",
+                "moneyou",
+                "rabobank",
+                "regiobank",
+                "revolut",
+                "sns_bank",
+                "triodos_bank",
+                "van_lanschot",
+                null
+              ],
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "bic": {
+              "description": "The Bank Identifier Code of the customer's bank.",
+              "enum": [
+                "ABNANL2A",
+                "ASNBNL21",
+                "BUNQNL2A",
+                "FVLBNL22",
+                "HANDNL2A",
+                "INGBNL2A",
+                "KNABNL2H",
+                "MOYONL21",
+                "RABONL2U",
+                "RBRBNL21",
+                "REVOLT21",
+                "SNSBNL2A",
+                "TRIONL2U",
+                null
+              ],
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "generated_sepa_debit": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The ID of the SEPA Direct Debit PaymentMethod which was generated by this SetupAttempt."
+            },
+            "generated_sepa_debit_mandate": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The mandate for the SEPA Direct Debit PaymentMethod which was generated by this SetupAttempt."
+            },
+            "iban_last4": {
+              "description": "Last four characters of the IBAN.",
+              "maxLength": 5000,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "verified_name": {
+              "description": "Owner's verified full name. Values are verified or provided by iDEAL directly\n(if supported) at the time of authorization or settlement. They cannot be set or mutated.",
+              "maxLength": 5000,
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "title": "setup_attempt_payment_method_details_ideal",
+          "type": "object"
+        },
+        "sepa_debit": {
+          "description": "",
+          "properties": {},
+          "title": "setup_attempt_payment_method_details_sepa_debit",
+          "type": "object"
+        },
+        "sofort": {
+          "description": "",
+          "properties": {
+            "bank_code": {
+              "description": "Bank code of bank associated with the bank account.",
+              "maxLength": 5000,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "bank_name": {
+              "description": "Name of the bank associated with the bank account.",
+              "maxLength": 5000,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "bic": {
+              "description": "Bank Identifier Code of the bank associated with the bank account.",
+              "maxLength": 5000,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "generated_sepa_debit": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The ID of the SEPA Direct Debit PaymentMethod which was generated by this SetupAttempt."
+            },
+            "generated_sepa_debit_mandate": {
+              "anyOf": [
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The mandate for the SEPA Direct Debit PaymentMethod which was generated by this SetupAttempt."
+            },
+            "iban_last4": {
+              "description": "Last four characters of the IBAN.",
+              "maxLength": 5000,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "preferred_language": {
+              "description": "Preferred language of the Sofort authorization page that the customer is redirected to.\nCan be one of `en`, `de`, `fr`, or `nl`",
+              "enum": [
+                "de",
+                "en",
+                "fr",
+                "nl",
+                null
+              ],
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "verified_name": {
+              "description": "Owner's verified full name. Values are verified or provided by Sofort directly\n(if supported) at the time of authorization or settlement. They cannot be set or mutated.",
+              "maxLength": 5000,
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "title": "setup_attempt_payment_method_details_sofort",
+          "type": "object"
+        },
+        "type": {
+          "description": "The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.",
+          "maxLength": 5000,
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "SetupAttemptPaymentMethodDetails",
+      "type": "object"
+    },
+    "setup_error": {
       "anyOf": [
         {
           "description": "",
@@ -872,12 +1283,12 @@
                               "type": "string"
                             },
                             "partner_id": {
-                              "description": "an unique merchant ID assigned by Wechat Pay",
+                              "description": "an unique merchant ID assigned by WeChat Pay",
                               "maxLength": 5000,
                               "type": "string"
                             },
                             "prepay_id": {
-                              "description": "an unique trading ID assigned by Wechat Pay",
+                              "description": "an unique trading ID assigned by WeChat Pay",
                               "maxLength": 5000,
                               "type": "string"
                             },
@@ -908,7 +1319,7 @@
                           "description": "",
                           "properties": {
                             "native_url": {
-                              "description": "An universal link that redirect to Wechat Pay APP",
+                              "description": "An universal link that redirect to WeChat Pay app",
                               "maxLength": 5000,
                               "type": "string"
                             }
@@ -974,6 +1385,15 @@
                               "description": "",
                               "properties": {
                                 "mandate_options": {},
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none",
+                                    "off_session",
+                                    "on_session"
+                                  ],
+                                  "type": "string"
+                                },
                                 "verification_method": {
                                   "description": "Bank account verification method.",
                                   "enum": [
@@ -1002,6 +1422,13 @@
                                     "string",
                                     "null"
                                   ]
+                                },
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none"
+                                  ],
+                                  "type": "string"
                                 }
                               },
                               "title": "payment_method_options_afterpay_clearpay",
@@ -1013,7 +1440,16 @@
                           "anyOf": [
                             {
                               "description": "",
-                              "properties": {},
+                              "properties": {
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none",
+                                    "off_session"
+                                  ],
+                                  "type": "string"
+                                }
+                              },
                               "title": "payment_method_options_alipay",
                               "type": "object"
                             }
@@ -1023,7 +1459,17 @@
                           "anyOf": [
                             {
                               "description": "",
-                              "properties": {},
+                              "properties": {
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none",
+                                    "off_session",
+                                    "on_session"
+                                  ],
+                                  "type": "string"
+                                }
+                              },
                               "title": "payment_intent_payment_method_options_au_becs_debit",
                               "type": "object"
                             }
@@ -1033,7 +1479,17 @@
                           "anyOf": [
                             {
                               "description": "",
-                              "properties": {},
+                              "properties": {
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none",
+                                    "off_session",
+                                    "on_session"
+                                  ],
+                                  "type": "string"
+                                }
+                              },
                               "title": "payment_method_options_bacs_debit",
                               "type": "object"
                             }
@@ -1051,6 +1507,14 @@
                                     "en",
                                     "fr",
                                     "nl"
+                                  ],
+                                  "type": "string"
+                                },
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none",
+                                    "off_session"
                                   ],
                                   "type": "string"
                                 }
@@ -1071,6 +1535,15 @@
                                 "expires_after_days": {
                                   "description": "The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto voucher will expire on Wednesday at 23:59 America/Sao_Paulo time.",
                                   "type": "integer"
+                                },
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none",
+                                    "off_session",
+                                    "on_session"
+                                  ],
+                                  "type": "string"
                                 }
                               },
                               "required": [
@@ -1157,7 +1630,15 @@
                           "anyOf": [
                             {
                               "description": "",
-                              "properties": {},
+                              "properties": {
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none"
+                                  ],
+                                  "type": "string"
+                                }
+                              },
                               "title": "payment_intent_payment_method_options_eps",
                               "type": "object"
                             }
@@ -1167,7 +1648,15 @@
                           "anyOf": [
                             {
                               "description": "",
-                              "properties": {},
+                              "properties": {
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none"
+                                  ],
+                                  "type": "string"
+                                }
+                              },
                               "title": "payment_method_options_fpx",
                               "type": "object"
                             }
@@ -1177,7 +1666,15 @@
                           "anyOf": [
                             {
                               "description": "",
-                              "properties": {},
+                              "properties": {
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none"
+                                  ],
+                                  "type": "string"
+                                }
+                              },
                               "title": "payment_method_options_giropay",
                               "type": "object"
                             }
@@ -1187,7 +1684,15 @@
                           "anyOf": [
                             {
                               "description": "",
-                              "properties": {},
+                              "properties": {
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none"
+                                  ],
+                                  "type": "string"
+                                }
+                              },
                               "title": "payment_method_options_grabpay",
                               "type": "object"
                             }
@@ -1197,7 +1702,16 @@
                           "anyOf": [
                             {
                               "description": "",
-                              "properties": {},
+                              "properties": {
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none",
+                                    "off_session"
+                                  ],
+                                  "type": "string"
+                                }
+                              },
                               "title": "payment_method_options_ideal",
                               "type": "object"
                             }
@@ -1225,6 +1739,13 @@
                                     "string",
                                     "null"
                                   ]
+                                },
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none"
+                                  ],
+                                  "type": "string"
                                 }
                               },
                               "title": "payment_method_options_klarna",
@@ -1240,6 +1761,13 @@
                                 "expires_after_days": {
                                   "description": "The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.",
                                   "type": "integer"
+                                },
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none"
+                                  ],
+                                  "type": "string"
                                 }
                               },
                               "required": [
@@ -1254,7 +1782,15 @@
                           "anyOf": [
                             {
                               "description": "",
-                              "properties": {},
+                              "properties": {
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none"
+                                  ],
+                                  "type": "string"
+                                }
+                              },
                               "title": "payment_method_options_p24",
                               "type": "object"
                             }
@@ -1265,7 +1801,16 @@
                             {
                               "description": "",
                               "properties": {
-                                "mandate_options": {}
+                                "mandate_options": {},
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none",
+                                    "off_session",
+                                    "on_session"
+                                  ],
+                                  "type": "string"
+                                }
                               },
                               "title": "payment_intent_payment_method_options_sepa_debit",
                               "type": "object"
@@ -1293,6 +1838,14 @@
                                     "string",
                                     "null"
                                   ]
+                                },
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none",
+                                    "off_session"
+                                  ],
+                                  "type": "string"
                                 }
                               },
                               "title": "payment_method_options_sofort",
@@ -1326,6 +1879,13 @@
                                     "null"
                                   ],
                                   "x-stripeBypassValidation": true
+                                },
+                                "setup_future_usage": {
+                                  "description": "Indicates that you intend to make future payments with this PaymentIntent's payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).",
+                                  "enum": [
+                                    "none"
+                                  ],
+                                  "type": "string"
                                 }
                               },
                               "title": "payment_method_options_wechat_pay",
@@ -2513,7 +3073,333 @@
               "maxLength": 5000,
               "type": "string"
             },
-            "setup_intent": {},
+            "setup_intent": {
+              "description": "A SetupIntent guides you through the process of setting up and saving a customer's payment credentials for future payments.\nFor example, you could use a SetupIntent to set up and save your customer's card without immediately collecting a payment.\nLater, you can use [PaymentIntents](https://stripe.com/docs/api#payment_intents) to drive the payment flow.\n\nCreate a SetupIntent as soon as you're ready to collect your customer's payment credentials.\nDo not maintain long-lived, unconfirmed SetupIntents as they may no longer be valid.\nThe SetupIntent then transitions through multiple [statuses](https://stripe.com/docs/payments/intents#intent-statuses) as it guides\nyou through the setup process.\n\nSuccessful SetupIntents result in payment credentials that are optimized for future payments.\nFor example, cardholders in [certain regions](/guides/strong-customer-authentication) may need to be run through\n[Strong Customer Authentication](https://stripe.com/docs/strong-customer-authentication) at the time of payment method collection\nin order to streamline later [off-session payments](https://stripe.com/docs/payments/setup-intents).\nIf the SetupIntent is used with a [Customer](https://stripe.com/docs/api#setup_intent_object-customer), upon success,\nit will automatically attach the resulting payment method to that Customer.\nWe recommend using SetupIntents or [setup_future_usage](https://stripe.com/docs/api#payment_intent_object-setup_future_usage) on\nPaymentIntents to save payment methods in order to prevent saving invalid or unoptimized payment methods.\n\nBy using SetupIntents, you ensure that your customers experience the minimum set of required friction,\neven as regulations change over time.\n\nRelated guide: [Setup Intents API](https://stripe.com/docs/payments/setup-intents).",
+              "properties": {
+                "application": {
+                  "anyOf": [
+                    {
+                      "maxLength": 5000,
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "ID of the Connect application that created the SetupIntent."
+                },
+                "cancellation_reason": {
+                  "description": "Reason for cancellation of this SetupIntent, one of `abandoned`, `requested_by_customer`, or `duplicate`.",
+                  "enum": [
+                    "abandoned",
+                    "duplicate",
+                    "requested_by_customer",
+                    null
+                  ],
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "client_secret": {
+                  "description": "The client secret of this SetupIntent. Used for client-side retrieval using a publishable key.\n\nThe client secret can be used to complete payment setup from your frontend. It should not be stored, logged, embedded in URLs, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret.",
+                  "maxLength": 5000,
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "created": {
+                  "description": "Time at which the object was created. Measured in seconds since the Unix epoch.",
+                  "format": "unix-time",
+                  "type": "integer"
+                },
+                "customer": {
+                  "anyOf": [
+                    {
+                      "maxLength": 5000,
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "ID of the Customer this SetupIntent belongs to, if one exists.\n\nIf present, the SetupIntent's payment method will be attached to the Customer on successful setup. Payment methods attached to other Customers cannot be used with this SetupIntent."
+                },
+                "description": {
+                  "description": "An arbitrary string attached to the object. Often useful for displaying to users.",
+                  "maxLength": 5000,
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "id": {
+                  "description": "Unique identifier for the object.",
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                "last_setup_error": {
+                  "anyOf": [
+                    {},
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "The error encountered in the previous SetupIntent confirmation."
+                },
+                "latest_attempt": {
+                  "anyOf": [
+                    {
+                      "maxLength": 5000,
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "The most recent SetupAttempt for this SetupIntent."
+                },
+                "livemode": {
+                  "description": "Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.",
+                  "type": "boolean"
+                },
+                "mandate": {
+                  "anyOf": [
+                    {
+                      "maxLength": 5000,
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "ID of the multi use Mandate generated by the SetupIntent."
+                },
+                "metadata": {},
+                "next_action": {
+                  "anyOf": [
+                    {
+                      "description": "",
+                      "properties": {
+                        "redirect_to_url": {
+                          "description": "",
+                          "properties": {
+                            "return_url": {
+                              "description": "If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.",
+                              "maxLength": 5000,
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "url": {
+                              "description": "The URL you must redirect your customer to in order to authenticate.",
+                              "maxLength": 5000,
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "title": "SetupIntentNextActionRedirectToUrl",
+                          "type": "object"
+                        },
+                        "type": {
+                          "description": "Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.",
+                          "maxLength": 5000,
+                          "type": "string"
+                        },
+                        "use_stripe_sdk": {},
+                        "verify_with_microdeposits": {
+                          "description": "",
+                          "properties": {
+                            "arrival_date": {
+                              "description": "The timestamp when the microdeposits are expected to land.",
+                              "format": "unix-time",
+                              "type": "integer"
+                            },
+                            "hosted_verification_url": {
+                              "description": "The URL for the hosted verification page, which allows customers to verify their bank account.",
+                              "maxLength": 5000,
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "arrival_date",
+                            "hosted_verification_url"
+                          ],
+                          "title": "SetupIntentNextActionVerifyWithMicrodeposits",
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "type"
+                      ],
+                      "title": "SetupIntentNextAction",
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "If present, this property tells you what actions you need to take in order for your customer to continue payment setup."
+                },
+                "object": {
+                  "description": "String representing the object's type. Objects of the same type share the same value.",
+                  "enum": [
+                    "setup_intent"
+                  ],
+                  "type": "string"
+                },
+                "on_behalf_of": {
+                  "anyOf": [
+                    {
+                      "maxLength": 5000,
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "The account (if any) for which the setup is intended."
+                },
+                "payment_method": {
+                  "anyOf": [
+                    {
+                      "maxLength": 5000,
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "ID of the payment method used with this SetupIntent."
+                },
+                "payment_method_options": {
+                  "anyOf": [
+                    {
+                      "description": "",
+                      "properties": {
+                        "acss_debit": {
+                          "description": "",
+                          "properties": {
+                            "currency": {
+                              "description": "Currency supported by the bank account",
+                              "enum": [
+                                "cad",
+                                "usd",
+                                null
+                              ],
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "mandate_options": {},
+                            "verification_method": {
+                              "description": "Bank account verification method.",
+                              "enum": [
+                                "automatic",
+                                "instant",
+                                "microdeposits"
+                              ],
+                              "type": "string",
+                              "x-stripeBypassValidation": true
+                            }
+                          },
+                          "title": "setup_intent_payment_method_options_acss_debit",
+                          "type": "object"
+                        },
+                        "card": {
+                          "description": "",
+                          "properties": {
+                            "request_three_d_secure": {
+                              "description": "We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.",
+                              "enum": [
+                                "any",
+                                "automatic",
+                                "challenge_only",
+                                null
+                              ],
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "title": "setup_intent_payment_method_options_card",
+                          "type": "object"
+                        },
+                        "sepa_debit": {
+                          "description": "",
+                          "properties": {
+                            "mandate_options": {}
+                          },
+                          "title": "setup_intent_payment_method_options_sepa_debit",
+                          "type": "object"
+                        }
+                      },
+                      "title": "SetupIntentPaymentMethodOptions",
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "Payment-method-specific configuration for this SetupIntent."
+                },
+                "payment_method_types": {
+                  "description": "The list of payment method types (e.g. card) that this SetupIntent is allowed to set up.",
+                  "items": {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "single_use_mandate": {
+                  "anyOf": [
+                    {
+                      "maxLength": 5000,
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "ID of the single_use Mandate generated by the SetupIntent."
+                },
+                "status": {
+                  "description": "[Status](https://stripe.com/docs/payments/intents#intent-statuses) of this SetupIntent, one of `requires_payment_method`, `requires_confirmation`, `requires_action`, `processing`, `canceled`, or `succeeded`.",
+                  "enum": [
+                    "canceled",
+                    "processing",
+                    "requires_action",
+                    "requires_confirmation",
+                    "requires_payment_method",
+                    "succeeded"
+                  ],
+                  "type": "string"
+                },
+                "usage": {
+                  "description": "Indicates how the payment method is intended to be used in the future.\n\nUse `on_session` if you intend to only reuse the payment method when the customer is in your checkout flow. Use `off_session` if your customer may or may not be in your checkout flow. If not provided, this value defaults to `off_session`.",
+                  "maxLength": 5000,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "created",
+                "id",
+                "livemode",
+                "object",
+                "payment_method_types",
+                "status",
+                "usage"
+              ],
+              "title": "SetupIntent",
+              "type": "object",
+              "x-resourceId": "setup_intent"
+            },
             "source": {
               "anyOf": [
                 {
@@ -2681,303 +3567,24 @@
           "type": "null"
         }
       ],
-      "description": "The error encountered in the previous SetupIntent confirmation."
+      "description": "The error encountered during this attempt to confirm the SetupIntent, if any."
     },
-    "latest_attempt": {
+    "setup_intent": {
       "anyOf": [
         {
           "maxLength": 5000,
           "type": "string"
-        },
-        {
-          "type": "null"
         }
       ],
-      "description": "The most recent SetupAttempt for this SetupIntent."
-    },
-    "livemode": {
-      "description": "Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.",
-      "type": "boolean"
-    },
-    "mandate": {
-      "anyOf": [
-        {
-          "maxLength": 5000,
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "description": "ID of the multi use Mandate generated by the SetupIntent."
-    },
-    "metadata": {},
-    "next_action": {
-      "anyOf": [
-        {
-          "description": "",
-          "properties": {
-            "redirect_to_url": {
-              "description": "",
-              "properties": {
-                "return_url": {
-                  "description": "If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.",
-                  "maxLength": 5000,
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "url": {
-                  "description": "The URL you must redirect your customer to in order to authenticate.",
-                  "maxLength": 5000,
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                }
-              },
-              "title": "SetupIntentNextActionRedirectToUrl",
-              "type": "object"
-            },
-            "type": {
-              "description": "Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.",
-              "maxLength": 5000,
-              "type": "string"
-            },
-            "use_stripe_sdk": {},
-            "verify_with_microdeposits": {
-              "description": "",
-              "properties": {
-                "arrival_date": {
-                  "description": "The timestamp when the microdeposits are expected to land.",
-                  "format": "unix-time",
-                  "type": "integer"
-                },
-                "hosted_verification_url": {
-                  "description": "The URL for the hosted verification page, which allows customers to verify their bank account.",
-                  "maxLength": 5000,
-                  "type": "string"
-                }
-              },
-              "required": [
-                "arrival_date",
-                "hosted_verification_url"
-              ],
-              "title": "SetupIntentNextActionVerifyWithMicrodeposits",
-              "type": "object"
-            }
-          },
-          "required": [
-            "type"
-          ],
-          "title": "SetupIntentNextAction",
-          "type": "object"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "description": "If present, this property tells you what actions you need to take in order for your customer to continue payment setup."
-    },
-    "object": {
-      "description": "String representing the object's type. Objects of the same type share the same value.",
-      "enum": [
-        "setup_intent"
-      ],
-      "type": "string"
-    },
-    "on_behalf_of": {
-      "anyOf": [
-        {
-          "maxLength": 5000,
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "description": "The account (if any) for which the setup is intended."
-    },
-    "payment_method": {
-      "anyOf": [
-        {
-          "maxLength": 5000,
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "description": "ID of the payment method used with this SetupIntent."
-    },
-    "payment_method_options": {
-      "anyOf": [
-        {
-          "description": "",
-          "properties": {
-            "acss_debit": {
-              "description": "",
-              "properties": {
-                "currency": {
-                  "description": "Currency supported by the bank account",
-                  "enum": [
-                    "cad",
-                    "usd",
-                    null
-                  ],
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "mandate_options": {
-                  "description": "",
-                  "properties": {
-                    "custom_mandate_url": {
-                      "description": "A URL for custom mandate text",
-                      "maxLength": 5000,
-                      "type": "string"
-                    },
-                    "default_for": {
-                      "description": "List of Stripe products where this mandate can be selected automatically.",
-                      "items": {
-                        "enum": [
-                          "invoice",
-                          "subscription"
-                        ],
-                        "type": "string"
-                      },
-                      "type": "array"
-                    },
-                    "interval_description": {
-                      "description": "Description of the interval. Only required if the 'payment_schedule' parameter is 'interval' or 'combined'.",
-                      "maxLength": 5000,
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "payment_schedule": {
-                      "description": "Payment schedule for the mandate.",
-                      "enum": [
-                        "combined",
-                        "interval",
-                        "sporadic",
-                        null
-                      ],
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    },
-                    "transaction_type": {
-                      "description": "Transaction type of the mandate.",
-                      "enum": [
-                        "business",
-                        "personal",
-                        null
-                      ],
-                      "type": [
-                        "string",
-                        "null"
-                      ]
-                    }
-                  },
-                  "title": "setup_intent_payment_method_options_mandate_options_acss_debit",
-                  "type": "object"
-                },
-                "verification_method": {
-                  "description": "Bank account verification method.",
-                  "enum": [
-                    "automatic",
-                    "instant",
-                    "microdeposits"
-                  ],
-                  "type": "string",
-                  "x-stripeBypassValidation": true
-                }
-              },
-              "title": "setup_intent_payment_method_options_acss_debit",
-              "type": "object"
-            },
-            "card": {
-              "description": "",
-              "properties": {
-                "request_three_d_secure": {
-                  "description": "We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.",
-                  "enum": [
-                    "any",
-                    "automatic",
-                    "challenge_only",
-                    null
-                  ],
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                }
-              },
-              "title": "setup_intent_payment_method_options_card",
-              "type": "object"
-            },
-            "sepa_debit": {
-              "description": "",
-              "properties": {
-                "mandate_options": {
-                  "description": "",
-                  "properties": {},
-                  "title": "setup_intent_payment_method_options_mandate_options_sepa_debit",
-                  "type": "object"
-                }
-              },
-              "title": "setup_intent_payment_method_options_sepa_debit",
-              "type": "object"
-            }
-          },
-          "title": "SetupIntentPaymentMethodOptions",
-          "type": "object"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "description": "Payment-method-specific configuration for this SetupIntent."
-    },
-    "payment_method_types": {
-      "description": "The list of payment method types (e.g. card) that this SetupIntent is allowed to set up.",
-      "items": {
-        "maxLength": 5000,
-        "type": "string"
-      },
-      "type": "array"
-    },
-    "single_use_mandate": {
-      "anyOf": [
-        {
-          "maxLength": 5000,
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "description": "ID of the single_use Mandate generated by the SetupIntent."
+      "description": "ID of the SetupIntent that this attempt belongs to."
     },
     "status": {
-      "description": "[Status](https://stripe.com/docs/payments/intents#intent-statuses) of this SetupIntent, one of `requires_payment_method`, `requires_confirmation`, `requires_action`, `processing`, `canceled`, or `succeeded`.",
-      "enum": [
-        "canceled",
-        "processing",
-        "requires_action",
-        "requires_confirmation",
-        "requires_payment_method",
-        "succeeded"
-      ],
+      "description": "Status of this SetupAttempt, one of `requires_confirmation`, `requires_action`, `processing`, `succeeded`, `failed`, or `abandoned`.",
+      "maxLength": 5000,
       "type": "string"
     },
     "usage": {
-      "description": "Indicates how the payment method is intended to be used in the future.\n\nUse `on_session` if you intend to only reuse the payment method when the customer is in your checkout flow. Use `off_session` if your customer may or may not be in your checkout flow. If not provided, this value defaults to `off_session`.",
+      "description": "The value of [usage](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-usage) on the SetupIntent at the time of this confirmation, one of `off_session` or `on_session`.",
       "maxLength": 5000,
       "type": "string"
     }
@@ -2987,22 +3594,72 @@
     "id",
     "livemode",
     "object",
-    "payment_method_types",
+    "payment_method",
+    "payment_method_details",
+    "setup_intent",
     "status",
     "usage"
   ],
-  "title": "SetupIntent",
+  "title": "PaymentFlowsSetupIntentSetupAttempt",
   "type": "object",
-  "x-resourceId": "setup_intent",
+  "x-resourceId": "setup_attempt",
   "default": {
     "application": "string",
-    "cancellation_reason": "abandoned",
-    "client_secret": "string",
     "created": 0,
     "customer": "string",
-    "description": "string",
     "id": "string",
-    "last_setup_error": {
+    "livemode": true,
+    "object": "setup_attempt",
+    "on_behalf_of": "string",
+    "payment_method": "string",
+    "payment_method_details": {
+      "acss_debit": {},
+      "au_becs_debit": {},
+      "bacs_debit": {},
+      "bancontact": {
+        "bank_code": "string",
+        "bank_name": "string",
+        "bic": "string",
+        "generated_sepa_debit": "string",
+        "generated_sepa_debit_mandate": "string",
+        "iban_last4": "string",
+        "preferred_language": "de",
+        "verified_name": "string"
+      },
+      "boleto": {},
+      "card": {
+        "three_d_secure": {
+          "authentication_flow": "challenge",
+          "result": "attempt_acknowledged",
+          "result_reason": "abandoned",
+          "version": "1.0.2"
+        }
+      },
+      "card_present": {
+        "generated_card": "string"
+      },
+      "ideal": {
+        "bank": "abn_amro",
+        "bic": "ABNANL2A",
+        "generated_sepa_debit": "string",
+        "generated_sepa_debit_mandate": "string",
+        "iban_last4": "string",
+        "verified_name": "string"
+      },
+      "sepa_debit": {},
+      "sofort": {
+        "bank_code": "string",
+        "bank_name": "string",
+        "bic": "string",
+        "generated_sepa_debit": "string",
+        "generated_sepa_debit_mandate": "string",
+        "iban_last4": "string",
+        "preferred_language": "de",
+        "verified_name": "string"
+      },
+      "type": "string"
+    },
+    "setup_error": {
       "charge": "string",
       "code": "string",
       "decline_code": "string",
@@ -3138,19 +3795,29 @@
         "payment_method_options": {
           "acss_debit": {
             "mandate_options": {},
+            "setup_future_usage": "none",
             "verification_method": "automatic"
           },
           "afterpay_clearpay": {
-            "reference": "string"
+            "reference": "string",
+            "setup_future_usage": "none"
           },
-          "alipay": {},
-          "au_becs_debit": {},
-          "bacs_debit": {},
+          "alipay": {
+            "setup_future_usage": "none"
+          },
+          "au_becs_debit": {
+            "setup_future_usage": "none"
+          },
+          "bacs_debit": {
+            "setup_future_usage": "none"
+          },
           "bancontact": {
-            "preferred_language": "de"
+            "preferred_language": "de",
+            "setup_future_usage": "none"
           },
           "boleto": {
-            "expires_after_days": 0
+            "expires_after_days": 0,
+            "setup_future_usage": "none"
           },
           "card": {
             "installments": {},
@@ -3159,28 +3826,45 @@
             "setup_future_usage": "none"
           },
           "card_present": {},
-          "eps": {},
-          "fpx": {},
-          "giropay": {},
-          "grabpay": {},
-          "ideal": {},
+          "eps": {
+            "setup_future_usage": "none"
+          },
+          "fpx": {
+            "setup_future_usage": "none"
+          },
+          "giropay": {
+            "setup_future_usage": "none"
+          },
+          "grabpay": {
+            "setup_future_usage": "none"
+          },
+          "ideal": {
+            "setup_future_usage": "none"
+          },
           "interac_present": {},
           "klarna": {
-            "preferred_locale": "string"
+            "preferred_locale": "string",
+            "setup_future_usage": "none"
           },
           "oxxo": {
-            "expires_after_days": 0
+            "expires_after_days": 0,
+            "setup_future_usage": "none"
           },
-          "p24": {},
+          "p24": {
+            "setup_future_usage": "none"
+          },
           "sepa_debit": {
-            "mandate_options": {}
+            "mandate_options": {},
+            "setup_future_usage": "none"
           },
           "sofort": {
-            "preferred_language": "de"
+            "preferred_language": "de",
+            "setup_future_usage": "none"
           },
           "wechat_pay": {
             "app_id": "string",
-            "client": "android"
+            "client": "android",
+            "setup_future_usage": "none"
           }
         },
         "payment_method_types": [
@@ -3340,7 +4024,54 @@
         "wechat_pay": {}
       },
       "payment_method_type": "string",
-      "setup_intent": {},
+      "setup_intent": {
+        "application": "string",
+        "cancellation_reason": "abandoned",
+        "client_secret": "string",
+        "created": 0,
+        "customer": "string",
+        "description": "string",
+        "id": "string",
+        "last_setup_error": {},
+        "latest_attempt": "string",
+        "livemode": true,
+        "mandate": "string",
+        "metadata": {},
+        "next_action": {
+          "redirect_to_url": {
+            "return_url": "string",
+            "url": "string"
+          },
+          "type": "string",
+          "use_stripe_sdk": {},
+          "verify_with_microdeposits": {
+            "arrival_date": 0,
+            "hosted_verification_url": "string"
+          }
+        },
+        "object": "setup_intent",
+        "on_behalf_of": "string",
+        "payment_method": "string",
+        "payment_method_options": {
+          "acss_debit": {
+            "currency": "cad",
+            "mandate_options": {},
+            "verification_method": "automatic"
+          },
+          "card": {
+            "request_three_d_secure": "any"
+          },
+          "sepa_debit": {
+            "mandate_options": {}
+          }
+        },
+        "payment_method_types": [
+          "string"
+        ],
+        "single_use_mandate": "string",
+        "status": "canceled",
+        "usage": "string"
+      },
       "source": {
         "account": "string",
         "account_holder_name": "string",
@@ -3364,51 +4095,8 @@
       },
       "type": "api_error"
     },
-    "latest_attempt": "string",
-    "livemode": true,
-    "mandate": "string",
-    "metadata": {},
-    "next_action": {
-      "redirect_to_url": {
-        "return_url": "string",
-        "url": "string"
-      },
-      "type": "string",
-      "use_stripe_sdk": {},
-      "verify_with_microdeposits": {
-        "arrival_date": 0,
-        "hosted_verification_url": "string"
-      }
-    },
-    "object": "setup_intent",
-    "on_behalf_of": "string",
-    "payment_method": "string",
-    "payment_method_options": {
-      "acss_debit": {
-        "currency": "cad",
-        "mandate_options": {
-          "custom_mandate_url": "string",
-          "default_for": [
-            "invoice"
-          ],
-          "interval_description": "string",
-          "payment_schedule": "combined",
-          "transaction_type": "business"
-        },
-        "verification_method": "automatic"
-      },
-      "card": {
-        "request_three_d_secure": "any"
-      },
-      "sepa_debit": {
-        "mandate_options": {}
-      }
-    },
-    "payment_method_types": [
-      "string"
-    ],
-    "single_use_mandate": "string",
-    "status": "canceled",
+    "setup_intent": "string",
+    "status": "string",
     "usage": "string"
   }
 }

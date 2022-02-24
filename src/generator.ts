@@ -72,7 +72,7 @@ export async function generateForVersion(
 }
 
 function runOnStediButtonWithSource(target: string) {
-  return `[![Run on Stedi](../../RunOnStedi.svg)](https://terminal.stedi.com/mappings/import?source_json=https://raw.githubusercontent.com/Stedi/registry/main/${target}`;
+  return `[![Run on Stedi](../../../RunOnStedi.svg)](https://terminal.stedi.com/mappings/import?source_json=https://raw.githubusercontent.com/Stedi/registry/main/${target})`;
 }
 
 export async function generateAll(
