@@ -4,7 +4,7 @@ import { SchemaObject, Options as AjvOptions } from "ajv";
 import AjvFormats from "ajv-formats";
 import Ajv202012Schema from "ajv/dist/refs/json-schema-2020-12/schema.json";
 
-// The 2020 json schema is not backwards compatible, thus we cannot use the default export from 'ajv'
+// The 2020 JSONSchema is not backward compatible, thus we cannot use the default export from 'ajv'
 import Ajv2020 from "ajv/dist/2020";
 
 type PathErrorPair = [string, Error];
