@@ -1,11 +1,18 @@
-import { Provider, SchemaPackage } from "./provider";
+import { SchemaPackage } from "./provider";
 import providers from "./providers";
 import openAPIParser from "@readme/openapi-parser";
+import jsonSchemaRefParser from "@apidevtools/json-schema-ref-parser";
 import path from "path";
 import fs from "fs";
+import rimraf from "rimraf";
+import { fromIntrospectionQuery } from "graphql-2-json-schema";
+import { IntrospectionQuery } from "graphql";
 import { OpenAPIV3 } from "openapi-types";
 import { mock } from "./util";
 import { markdownTable } from "markdown-table";
+import { promisify } from "util";
+
+const asyncRimraf = promisify(rimraf);
 
 interface Schema {
   name: string;
@@ -18,6 +25,39 @@ async function listVersions(providerName: keyof typeof providers) {
 
 async function unbundle(bundle: SchemaPackage): Promise<Schema[]> {
   switch (bundle.type) {
+    case "graphql":
+      const jsonSchema = fromIntrospectionQuery(
+        bundle.value as IntrospectionQuery,
+        {
+          ignoreInternals: true,
+          nullableArrayItems: true,
+        }
+      );
+
+      // Introspection schema lacks QueryRoot definition - adding it manually so it won't crash on dereferencing
+      jsonSchema.definitions!["QueryRoot"] = {
+        type: "object",
+        title: "root",
+        description: "root",
+      };
+
+      const dereferencedSchemas = await jsonSchemaRefParser.dereference(
+        jsonSchema,
+        { dereference: { circular: "ignore" } }
+      );
+
+      if (!("definitions" in dereferencedSchemas))
+        throw new Error("Expected definitions");
+
+      return Object.entries(dereferencedSchemas.definitions ?? {})
+        .filter(([key]) =>
+          !bundle.entities ? true : bundle.entities.includes(key)
+        )
+        .map(([k, v]) => ({
+          name: k,
+          schema: v,
+        }));
+
     case "openapi-v3":
       const dereferenced = await openAPIParser.dereference(bundle.value as any);
       if (!("components" in dereferenced))
@@ -34,10 +74,16 @@ async function unbundle(bundle: SchemaPackage): Promise<Schema[]> {
 export async function generateForVersion(
   rootPath: string,
   providerName: keyof typeof providers,
-  version: string
+  version: string,
+  customPath?: string
 ) {
-  const baseDir = path.join(rootPath, providerName, version);
+  const baseDir = customPath
+    ? path.join(rootPath, customPath)
+    : path.join(rootPath, providerName, version);
+  await asyncRimraf(baseDir);
+
   const folderExists = !fs.mkdirSync(baseDir, { recursive: true });
+
   if (folderExists) {
     console.log(`Skipping [${providerName}, ${version}]...`);
     return;
@@ -77,15 +123,17 @@ function runOnStediButtonWithSource(target: string) {
 
 export async function generateAll(
   rootPath: string,
-  providerName: keyof typeof providers
+  providerName: keyof typeof providers,
+  customPath?: string
 ) {
   const versions = await listVersions(providerName);
   for (const version of versions) {
-    await generateForVersion(rootPath, providerName, version);
+    await generateForVersion(rootPath, providerName, version, customPath);
   }
 }
 
 (async () => {
   await generateAll("./schemas", "stripe");
   await generateAll("./schemas", "ramp");
+  await generateAll("./schemas", "shopify", "./shopify/graphql/2022-01");
 })();
