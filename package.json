@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "generate": "NODE_OPTIONS=\"--loader ts-node/esm --experimental-specifier-resolution=node\" ts-node ./src/generator.ts",
-    "validate": "ts-node ./src/validator.ts"
+    "validate": "NODE_OPTIONS=\"--loader ts-node/esm --experimental-specifier-resolution=node\" ts-node ./src/validator.ts"
   },
   "keywords": [],
   "author": "",
