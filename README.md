@@ -23,5 +23,6 @@ Take a look at the [`schemas` directory](https://github.com/Stedi/registry/tree/
 
 ## Get in touch
 
-- [Send us an email](mailto:team@stedi.com) to connect with our team
+- [Send us a note](https://www.stedi.com/contact) and let us know how we can help
 - [Create an issue](https://github.com/Stedi/registry/issues) in this repo if you encounter a bug or if you have any feedback on how we can improve this resource
+- [Request new schema](https://github.com/Stedi/registry/issues/new?assignees=&labels=enhancement&template=add-new-schema.md&title=%5BAdd+new+schema%5D+) if there's a schema you'd like to see added to this registry
