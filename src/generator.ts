@@ -108,19 +108,24 @@ export async function generateForVersion(
 
     markdownTableRows.push([
       `${schema.name}.json`,
-      runOnStediButtonWithSource(target),
+      mapFromThisSchemaWithSource(target),
+      mapToThisSchemaWithSource(target),
     ]);
   }
 
   const readmeFileContents = markdownTable([
-    ["Source Schema", "Map on Stedi"],
+    ["Source Schema"],
     ...markdownTableRows,
   ]);
   fs.writeFileSync(path.join(baseDir, `README.md`), readmeFileContents);
 }
 
-function runOnStediButtonWithSource(target: string) {
-  return `[![Map from this schema](/schemas/MapFromThisSchema.svg)](https://terminal.stedi.com/mappings/import?source_json_schema=https://raw.githubusercontent.com/Stedi/registry/main/${target})`;
+function mapFromThisSchemaWithSource(target: string) {
+  return `[![Map from this schema](/images/MapFromThisSchema.svg)](https://terminal.stedi.com/mappings/import?source_json_schema=https://raw.githubusercontent.com/Stedi/registry/main/${target})`;
+}
+
+function mapToThisSchemaWithSource(target: string) {
+  return `[![Map to this schema](/images/MapToThisSchema.svg)](https://terminal.stedi.com/mappings/import?target_json_schema=https://raw.githubusercontent.com/Stedi/registry/main/${target})`;
 }
 
 export async function generateAll(
