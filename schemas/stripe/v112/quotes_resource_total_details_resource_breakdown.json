@@ -32,21 +32,6 @@
                     ]
                   },
                   "applies_to": {
-                    "description": "",
-                    "properties": {
-                      "products": {
-                        "description": "A list of product IDs this coupon applies to",
-                        "items": {
-                          "maxLength": 5000,
-                          "type": "string"
-                        },
-                        "type": "array"
-                      }
-                    },
-                    "required": [
-                      "products"
-                    ],
-                    "title": "CouponAppliesTo",
                     "type": "object"
                   },
                   "created": {
@@ -93,7 +78,9 @@
                       "null"
                     ]
                   },
-                  "metadata": {},
+                  "metadata": {
+                    "type": "object"
+                  },
                   "name": {
                     "description": "Name of the coupon displayed to customers on for instance invoices or receipts.",
                     "maxLength": 5000,
@@ -146,16 +133,10 @@
                 "type": "object"
               },
               "customer": {
-                "anyOf": [
-                  {
-                    "maxLength": 5000,
-                    "type": "string"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ],
-                "description": "The ID of the customer associated with this discount."
+                "description": "The ID of the customer associated with this discount.",
+                "nullable": true,
+                "maxLength": 5000,
+                "type": "string"
               },
               "end": {
                 "description": "If the coupon has a duration of `repeating`, the date that this discount will end. If the coupon has a duration of `once` or `forever`, this attribute will be null.",
@@ -194,16 +175,10 @@
                 "type": "string"
               },
               "promotion_code": {
-                "anyOf": [
-                  {
-                    "maxLength": 5000,
-                    "type": "string"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ],
-                "description": "The promotion code applied to create this discount."
+                "description": "The promotion code applied to create this discount.",
+                "nullable": true,
+                "maxLength": 5000,
+                "type": "string"
               },
               "start": {
                 "description": "Date that the coupon was applied.",
@@ -378,11 +353,7 @@
           "checkout_session": "string",
           "coupon": {
             "amount_off": 0,
-            "applies_to": {
-              "products": [
-                "string"
-              ]
-            },
+            "applies_to": {},
             "created": 1647352387,
             "currency": "string",
             "duration": "forever",
