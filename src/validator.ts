@@ -1,5 +1,6 @@
 import { readFileSync } from "fs";
 import glob from "glob";
+import axios from "axios";
 import { SchemaObject, Options as AjvOptions } from "ajv";
 import AjvFormats from "ajv-formats";
 import Ajv202012Schema from "ajv/dist/refs/json-schema-2020-12/schema.json";
@@ -12,7 +13,7 @@ type PathErrorPair = [string, Error];
 function validateSchema(jsonSchema: string): SchemaObject {
   try {
     const schemaObject = JSON.parse(jsonSchema) as SchemaObject;
-    const ajv = getAjvInstance("json-schema-2020-12");
+    const ajv = getAjvInstance();
 
     if (!isSchemaVersionSupported(schemaObject)) {
       throw new Error(
@@ -52,7 +53,7 @@ function validateSchemasDefault(schemaObject: SchemaObject): void {
     return;
   }
 
-  const ajv = getAjvInstance("json-schema-2020-12");
+  const ajv = getAjvInstance();
   const validate = ajv.compile(schemaObject);
 
   const isValid = validate(schemaObject.default);
@@ -73,10 +74,10 @@ function isSchemaVersionSupported(schema: SchemaObject) {
   return supportedSchemaVersions.includes(schema.$schema);
 }
 
-function getAjvInstance(type: "json-schema-2020-12" = "json-schema-2020-12") {
+function getAjvInstance() {
   const instance = new Ajv2020({
     ...defaultInstanceOptions,
-    defaultMeta: metaSchemas[type],
+    defaultMeta: Ajv202012Schema,
   });
   AjvFormats(instance);
   instance.addFormat("unix-time", {
@@ -99,15 +100,7 @@ function getAjvInstance(type: "json-schema-2020-12" = "json-schema-2020-12") {
   return instance;
 }
 
-const metaSchemas: Record<
-  NonNullable<"json-schema-2020-12">,
-  Record<string, unknown>
-> = {
-  "json-schema-2020-12": Ajv202012Schema,
-};
-
 const defaultInstanceOptions: AjvOptions = {
-  // Our line of defense when it comes to potentially slow to validate against schemas is the validate lambda timeout setting.
   allErrors: true,
   strict: true,
   strictTypes: true,
@@ -116,7 +109,7 @@ const defaultInstanceOptions: AjvOptions = {
 
 const supportedSchemaVersions = [Ajv202012Schema.$schema];
 
-async function validateAll() {
+async function validateAllSchemas() {
   const errors: PathErrorPair[] = [];
   const paths = glob.sync("schemas/**/*.json");
 
@@ -126,6 +119,7 @@ async function validateAll() {
       validateSchemasDefault(schema);
     } catch (e) {
       errors.push([path, e as Error]);
+
       console.error(`${path} failed validation: `);
       console.error(e);
     }
@@ -137,6 +131,88 @@ async function validateAll() {
   }
 }
 
+interface Provider {
+  name: string;
+  description: string;
+  logoUrl: string;
+}
+
+const providerJsonSchema = {
+  $schema: "https://json-schema.org/draft/2020-12/schema",
+  type: "object",
+  properties: {
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    logoUrl: {
+      type: "string",
+    },
+  },
+  required: ["name", "description", "logoUrl"],
+};
+
+/**
+ * Compares the providers in the schemas directory against the providers in the providers.json file.
+ * Moreover, ensures that providers.json has a correct shape.
+ */
+async function validateProviders() {
+  const schemasPath = "schemas";
+  const providersPath = "providers.json";
+  const schemas = glob.sync(`${schemasPath}/*`);
+  const providers: Provider[] = JSON.parse(
+    readFileSync(providersPath, "utf-8")
+  );
+
+  const providersNamesInLowerCase = providers.map((provider) =>
+    provider.name.toLowerCase()
+  );
+  const schemasProvidersNames = schemas.map(
+    (provider) => provider.split("/")[1]
+  );
+  const providersWithSchemasMissing = providersNamesInLowerCase.filter(
+    (p) => !schemasProvidersNames.includes(p)
+  );
+  const providersWithMetadataMissing = schemasProvidersNames.filter(
+    (p) => !providersNamesInLowerCase.includes(p)
+  );
+
+  if (providersWithSchemasMissing.length > 0) {
+    throw new Error(
+      `Providers with schemas missing: ${providersWithSchemasMissing.join(
+        ", "
+      )}`
+    );
+  }
+
+  if (providersWithMetadataMissing.length > 0) {
+    throw new Error(
+      `Providers with metadata missing: ${providersWithMetadataMissing.join(
+        ", "
+      )}`
+    );
+  }
+
+  providers.forEach(async (provider) => {
+    const ajv = getAjvInstance();
+    const validate = ajv.compile(providerJsonSchema);
+    const isValid = validate(provider);
+
+    if (!isValid) {
+      throw new Error(`${provider.name} failed validation: ${ajv.errors}`);
+    }
+
+    try {
+      await axios.get(provider.logoUrl);
+    } catch (e) {
+      throw new Error(`Failed to get logo for provider ${provider.name}: ${e}`);
+    }
+  });
+}
+
 (async () => {
-  await validateAll();
+  await validateAllSchemas();
+  await validateProviders();
 })();
