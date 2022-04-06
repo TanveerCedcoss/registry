@@ -4,7 +4,6 @@
       "description": "The SID of the Account that created the resource",
       "maxLength": 34,
       "minLength": 34,
-      "pattern": "^AC[0-9a-fA-F]{32}$",
       "type": "string"
     },
     "api_version": {
@@ -48,7 +47,6 @@
       "description": "The SID of the Messaging Service used with the message.",
       "maxLength": 34,
       "minLength": 34,
-      "pattern": "^MG[0-9a-fA-F]{32}$",
       "type": "string"
     },
     "num_media": {
@@ -71,7 +69,6 @@
       "description": "The unique string that identifies the resource",
       "maxLength": 34,
       "minLength": 34,
-      "pattern": "^(SM|MM)[0-9a-fA-F]{32}$",
       "type": "string"
     },
     "status": {
@@ -108,7 +105,7 @@
   },
   "type": "object",
   "default": {
-    "account_sid": "AC2E0Fb23D6015AaBc6ed1600ADaAd02f7",
+    "account_sid": "stringstringstringstringstringstri",
     "api_version": "string",
     "body": "string",
     "date_created": "string",
@@ -118,12 +115,12 @@
     "error_code": 0,
     "error_message": "string",
     "from": "string",
-    "messaging_service_sid": "MGae1FE1AE3E3a11d55DE84dF3Fe7D5E7A",
+    "messaging_service_sid": "stringstringstringstringstringstri",
     "num_media": "string",
     "num_segments": "string",
     "price": "string",
     "price_unit": "string",
-    "sid": "MM1c977b69A9dF134acDb58d63Ebd24EAa",
+    "sid": "stringstringstringstringstringstri",
     "status": "queued",
     "subresource_uris": {},
     "to": "string",

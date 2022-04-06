@@ -1,8 +1,6 @@
 {
   "title": "ContainerAndCargo",
-  "required": [
-    "cargoType"
-  ],
+  "required": ["cargoType"],
   "type": "object",
   "properties": {
     "cargoType": {
