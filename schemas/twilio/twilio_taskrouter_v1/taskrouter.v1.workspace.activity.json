@@ -50,7 +50,7 @@
   },
   "type": "object",
   "default": {
-    "account_sid": "ACCC7Af08c8Fe04e1BAb36C14aD4c0D903",
+    "account_sid": "ACdbfBd260411CE2311D0aE6581D063e51",
     "available": true,
     "date_created": "1970-01-01T00:00:00.000Z",
     "date_updated": "1970-01-01T00:00:00.000Z",

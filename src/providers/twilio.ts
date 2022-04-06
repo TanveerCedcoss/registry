@@ -47,6 +47,7 @@ export class TwilioProvider extends OpenAPIProvider {
     };
   }
 }
+
 function sanitizeSchema(schema: unknown) {
   return JSON.parse(
     JSON.stringify(schema, (key, value) => {

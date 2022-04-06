@@ -90,8 +90,8 @@
   },
   "type": "object",
   "default": {
-    "account_sid": "ACaeDC7C5d31a6BF0de4B9B7a6715fDed3",
-    "actor_sid": "Fp422234Dc87E6070e4E8760d39fFB0bb6",
+    "account_sid": "ACb7FcbAcbAff563aFF1FD385F92c11EAF",
+    "actor_sid": "jqD52e5f6Cee9F6CfF584bC713e55AefdB",
     "actor_type": "string",
     "actor_url": "https://example.com/path",
     "description": "string",
