@@ -22,6 +22,7 @@ export class TwilioProvider extends OpenAPIProvider {
         "check_membership_response",
       ],
       sanitizeSchema,
+      docsLink: "https://www.twilio.com/docs/usage/api",
     });
   }
 

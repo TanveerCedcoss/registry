@@ -10,13 +10,16 @@ export interface OpenAPIProviderProps {
   versions: string[];
   baseUrl?: string;
   entities?: string[];
+  customPath?: string;
   sanitizeSchema?: (schema: unknown) => unknown;
+  docsLink: string | ((schemaName: string) => string);
 }
 
 export class OpenAPIProvider implements BaseProvider {
   public readonly name: string;
   public readonly description: string;
   public readonly logoUrl: string;
+  public readonly docsLink: string | ((schemaName: string) => string);
   public readonly customPath: string | undefined;
   /**
    * Versions of the provider's API that are fetched
@@ -36,7 +39,17 @@ export class OpenAPIProvider implements BaseProvider {
    */
   private readonly sanitizeSchemaFunction?: (schema: unknown) => unknown;
 
-  constructor({ versions, baseUrl, entities, sanitizeSchema, name, logoUrl, description }: OpenAPIProviderProps) {
+  constructor({
+    versions,
+    baseUrl,
+    entities,
+    sanitizeSchema,
+    name,
+    logoUrl,
+    description,
+    docsLink,
+    customPath,
+  }: OpenAPIProviderProps) {
     this.name = name;
     this.description = description;
     this.logoUrl = logoUrl;
@@ -44,6 +57,8 @@ export class OpenAPIProvider implements BaseProvider {
     this.baseUrl = baseUrl;
     this.entities = entities;
     this.sanitizeSchemaFunction = sanitizeSchema;
+    this.docsLink = docsLink;
+    this.customPath = customPath;
   }
 
   /**

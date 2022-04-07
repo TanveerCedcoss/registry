@@ -55,6 +55,7 @@ export class StripeProvider extends OpenAPIProvider {
         "topup",
         "transfer",
       ],
+      docsLink: (schemaName) => `https://stripe.com/docs/api/${schemaName}s`, // naive plural form
       sanitizeSchema: (value) => traverse(deepcopy(value) as OpenAPIV3.SchemaObject, new Set<String>()),
     });
   }

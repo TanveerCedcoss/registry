@@ -1,8 +1,19 @@
-export function generateMarkdownTableRow({ schemaName, providerName, target }: GenerateMarkdownTableProps) {
+export function generateMarkdownTableRow({ schemaName, providerName, target, docsLink }: GenerateMarkdownTableProps) {
   return [
     `[${schemaName}.json](https://raw.githubusercontent.com/Stedi/registry/main/${target})`,
-    generateMapFromSchemaMarkdownButton({ target, providerName, schemaName }),
-    generateMapToSchemaMarkdownButton({ target, providerName, schemaName }),
+    generateMapFromSchemaMarkdownButton({
+      target,
+      providerName,
+      schemaName,
+      docsLink,
+    }),
+    generateMapToSchemaMarkdownButton({
+      target,
+      providerName,
+      schemaName,
+      docsLink,
+    }),
+    `[Docs](${docsLink})`,
   ];
 }
 
@@ -20,6 +31,7 @@ interface GenerateMarkdownTableProps {
   schemaName: string;
   target: string;
   providerName: string;
+  docsLink: string;
 }
 
 function capitalizeFirstLetter(str: string) {
