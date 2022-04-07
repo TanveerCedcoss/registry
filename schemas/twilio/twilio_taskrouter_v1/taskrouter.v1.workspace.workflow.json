@@ -36,6 +36,7 @@
     },
     "links": {
       "description": "The URLs of related resources",
+      "format": "object",
       "type": "object"
     },
     "sid": {

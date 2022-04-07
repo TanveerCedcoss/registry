@@ -38,6 +38,7 @@
     },
     "links": {
       "description": "The URLs of related resources",
+      "format": "object",
       "type": "object"
     },
     "multi_task_enabled": {
