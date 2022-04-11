@@ -9,6 +9,7 @@ import { XPOLogisticsProvider } from "./xpoLogistics";
 import { MaerskProvider } from "./maersk";
 import { BatonProvider } from "./baton";
 import { SquareProvider } from "./square";
+import { ShipbobProvider } from "./shipbob";
 import { UPSFreightShipProvider } from "./ups/freightShip";
 import { UPSShipmentProvider } from "./ups/shipment";
 import { UPSTrackProvider } from "./ups/track";
@@ -25,6 +26,7 @@ export default {
   maersk: new MaerskProvider(),
   baton: new BatonProvider(),
   square: new SquareProvider(),
+  shipbob: new ShipbobProvider(),
   upsFreightShip: new UPSFreightShipProvider(),
   upsShipment: new UPSShipmentProvider(),
   upsTrack: new UPSTrackProvider(),
