@@ -1,5 +1,10 @@
 [
   {
+    "name": "Convoy",
+    "logoUrl": "https://logo.clearbit.com/convoy.com",
+    "description": "Convoy is the nation's most efficient digital freight network."
+  },
+  {
     "name": "Stripe",
     "logoUrl": "https://logo.clearbit.com/stripe.com",
     "description": "Online payment processing for internet businesses. Stripe is a suite of payment APIs that powers commerce for online businesses of all sizes."
