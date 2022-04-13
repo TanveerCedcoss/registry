@@ -13,23 +13,25 @@ import { ShipbobProvider } from "./shipbob";
 import { UPSFreightShipProvider } from "./ups/freightShip";
 import { UPSShipmentProvider } from "./ups/shipment";
 import { UPSTrackProvider } from "./ups/track";
+import { FedexShipProvider } from "./fedex/ship";
 import { ConvoyProvider } from "./convoy";
 
 export default {
+  baton: new BatonProvider(),
   convoy: new ConvoyProvider(),
-  stripe: new StripeProvider(),
-  shopify: new ShopifyProvider(),
-  twilio: new TwilioProvider(),
-  netsuite: new NetsuiteProvider(),
-  ramp: new RampProvider(),
+  fedexShip: new FedexShipProvider(),
   flexport: new FlexportProvider(),
   klaviyo: new KlaviyoProvider(),
-  xpoLogistics: new XPOLogisticsProvider(),
   maersk: new MaerskProvider(),
-  baton: new BatonProvider(),
-  square: new SquareProvider(),
+  netsuite: new NetsuiteProvider(),
+  ramp: new RampProvider(),
   shipbob: new ShipbobProvider(),
+  shopify: new ShopifyProvider(),
+  square: new SquareProvider(),
+  stripe: new StripeProvider(),
+  twilio: new TwilioProvider(),
   upsFreightShip: new UPSFreightShipProvider(),
   upsShipment: new UPSShipmentProvider(),
   upsTrack: new UPSTrackProvider(),
+  xpoLogistics: new XPOLogisticsProvider(),
 };
