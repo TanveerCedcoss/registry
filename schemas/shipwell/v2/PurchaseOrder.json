@@ -41,8 +41,7 @@
     "custom_data": {
       "additionalProperties": {},
       "description": "Custom data for PurchaseOrder",
-      "type": "object",
-      "x-is-free-form": false
+      "type": "object"
     },
     "customer_external_id": {
       "type": "string"
@@ -477,8 +476,7 @@
               "custom_data": {
                 "additionalProperties": {},
                 "description": "Custom data for PurchaseOrderLineItem",
-                "type": "object",
-                "x-is-free-form": false
+                "type": "object"
               },
               "description": {
                 "type": "string"

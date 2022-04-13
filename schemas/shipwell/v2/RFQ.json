@@ -33,8 +33,7 @@
             "custom_data": {
               "additionalProperties": {},
               "description": "Custom data for User",
-              "type": "object",
-              "x-is-free-form": false
+              "type": "object"
             },
             "default_shipment_tags": {
               "description": "List of ShipmentTag ids",
@@ -475,8 +474,7 @@
                 "custom_data": {
                   "additionalProperties": {},
                   "description": "Custom data for User",
-                  "type": "object",
-                  "x-is-free-form": false
+                  "type": "object"
                 },
                 "default_shipment_tags": {
                   "description": "List of ShipmentTag ids",
@@ -819,8 +817,7 @@
                   "custom_data": {
                     "additionalProperties": {},
                     "description": "Custom data for CarrierCustomData",
-                    "type": "object",
-                    "x-is-free-form": false
+                    "type": "object"
                   },
                   "dba_name": {
                     "type": "string"
@@ -1502,8 +1499,7 @@
                     "custom_data": {
                       "additionalProperties": {},
                       "description": "Custom data for User",
-                      "type": "object",
-                      "x-is-free-form": false
+                      "type": "object"
                     },
                     "default_shipment_tags": {
                       "description": "List of ShipmentTag ids",
@@ -1587,8 +1583,7 @@
                     "custom_data": {
                       "additionalProperties": {},
                       "description": "Custom data for User",
-                      "type": "object",
-                      "x-is-free-form": false
+                      "type": "object"
                     },
                     "default_shipment_tags": {
                       "description": "List of ShipmentTag ids",
@@ -1742,8 +1737,7 @@
                         "custom_data": {
                           "additionalProperties": {},
                           "description": "Custom data for CarrierCustomData",
-                          "type": "object",
-                          "x-is-free-form": false
+                          "type": "object"
                         },
                         "dba_name": {
                           "type": "string"
@@ -2751,7 +2745,7 @@
         "delivery_date": "string",
         "display_earliest_pickup": "string",
         "earliest_pickup_date": "string",
-        "earliest_pickup_time": "string",
+        "earliest_pickup_time": "10:05:08-02:30",
         "equipment_type": {
           "id": 1,
           "machine_readable": "AUTO_CARRIER",
@@ -2969,7 +2963,7 @@
             "delivery_date": "string",
             "display_earliest_pickup": "string",
             "earliest_pickup_date": "string",
-            "earliest_pickup_time": "string",
+            "earliest_pickup_time": "10:05:08-02:30",
             "equipment_type": {
               "id": 1,
               "machine_readable": "AUTO_CARRIER",

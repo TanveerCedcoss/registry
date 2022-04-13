@@ -179,8 +179,7 @@
               "custom_data": {
                 "additionalProperties": {},
                 "description": "Custom data for ShipmentLineItem",
-                "type": "object",
-                "x-is-free-form": false
+                "type": "object"
               },
               "dry_ice_unit": {
                 "default": "LB",

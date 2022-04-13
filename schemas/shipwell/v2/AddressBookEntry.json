@@ -107,8 +107,7 @@
     "custom_data": {
       "additionalProperties": true,
       "description": "Custom data for Location",
-      "type": "object",
-      "x-is-free-form": false
+      "type": "object"
     },
     "default_appointment_type": {
       "properties": {
@@ -304,8 +303,8 @@
       "name": "string"
     },
     "dock_external_id": "string",
-    "dock_hours_end": "string",
-    "dock_hours_start": "string",
+    "dock_hours_end": "10:05:08-02:30",
+    "dock_hours_start": "10:05:08-02:30",
     "external_reference": "string",
     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "is_default_origin": true,

@@ -13,8 +13,7 @@
     "custom_data": {
       "additionalProperties": {},
       "description": "Custom data for Invoice",
-      "type": "object",
-      "x-is-free-form": false
+      "type": "object"
     },
     "customer_memo": {
       "type": "string"
@@ -149,8 +148,7 @@
           "custom_data": {
             "additionalProperties": {},
             "title": "InvoiceLineItemCustomData",
-            "type": "object",
-            "x-is-free-form": false
+            "type": "object"
           },
           "description": {
             "type": "string"

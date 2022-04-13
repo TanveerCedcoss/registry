@@ -262,7 +262,7 @@
     ],
     "rates_updated_day_of_week": "MONDAY",
     "rates_updated_interval": "MONTH",
-    "rates_updated_time_of_day": "string",
+    "rates_updated_time_of_day": "10:05:08-02:30",
     "start_date": "1970-01-01",
     "status": "ACTIVE"
   },

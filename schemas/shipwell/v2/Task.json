@@ -20,8 +20,7 @@
         "custom_data": {
           "additionalProperties": {},
           "description": "Custom data for User",
-          "type": "object",
-          "x-is-free-form": false
+          "type": "object"
         },
         "default_shipment_tags": {
           "description": "List of ShipmentTag ids",
@@ -110,8 +109,7 @@
         "custom_data": {
           "additionalProperties": {},
           "description": "Custom data for User",
-          "type": "object",
-          "x-is-free-form": false
+          "type": "object"
         },
         "default_shipment_tags": {
           "description": "List of ShipmentTag ids",

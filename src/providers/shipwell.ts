@@ -310,6 +310,10 @@ export class ShipwellProvider extends OpenAPIProvider {
 function sanitizeSchema(schema: unknown) {
   return JSON.parse(
     JSON.stringify(schema, (key, value) => {
+      if (value["x-is-free-form"] != undefined) {
+        delete value["x-is-free-form"];
+      }
+
       return value;
     }),
   );

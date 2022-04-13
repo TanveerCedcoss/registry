@@ -60,8 +60,7 @@
     "custom_data": {
       "additionalProperties": {},
       "description": "Custom data for ShipmentMetadata",
-      "type": "object",
-      "x-is-free-form": false
+      "type": "object"
     },
     "customer_side_accessorial_charge_table": {
       "description": "Link to the AccessorialChargeTable used to access charges on the shipment customer",

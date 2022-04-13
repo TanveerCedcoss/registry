@@ -132,7 +132,7 @@
   "type": "object",
   "default": {
     "available_date": "1970-01-01",
-    "available_time": "string",
+    "available_time": "10:05:08-02:30",
     "bid_amount": 0,
     "bid_amount_currency": "string",
     "carrier_name": "string",

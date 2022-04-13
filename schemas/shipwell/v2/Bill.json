@@ -18,8 +18,7 @@
       "additionalProperties": {},
       "description": "Custom data for a bill",
       "title": "BillCustomData",
-      "type": "object",
-      "x-is-free-form": false
+      "type": "object"
     },
     "documents": {
       "items": {
@@ -144,8 +143,7 @@
             "additionalProperties": {},
             "description": "Custom data for a bill line item",
             "title": "BillLineItemCustomData",
-            "type": "object",
-            "x-is-free-form": false
+            "type": "object"
           },
           "description": {
             "description": "If not specified, defaults to the shipment reference id",

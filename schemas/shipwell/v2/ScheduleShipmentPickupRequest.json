@@ -173,8 +173,8 @@
     "scheduled_date": "1970-01-01",
     "shipments": ["3fa85f64-5717-4562-b3fc-2c963f66afa6"],
     "special_instructions": "string",
-    "time_window_end": "string",
-    "time_window_start": "string",
+    "time_window_end": "10:05:08-02:30",
+    "time_window_start": "10:05:08-02:30",
     "ups_account": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "usps_account": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
   },

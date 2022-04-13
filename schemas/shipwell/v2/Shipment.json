@@ -193,8 +193,7 @@
         "custom_data": {
           "additionalProperties": {},
           "description": "Custom data for Shipment",
-          "type": "object",
-          "x-is-free-form": false
+          "type": "object"
         },
         "customer": {
           "properties": {
@@ -350,8 +349,7 @@
                 "custom_data": {
                   "additionalProperties": {},
                   "description": "Custom data for CarrierCustomData",
-                  "type": "object",
-                  "x-is-free-form": false
+                  "type": "object"
                 },
                 "dba_name": {
                   "type": "string"
@@ -559,8 +557,7 @@
                     "custom_data": {
                       "additionalProperties": {},
                       "description": "Custom data for User",
-                      "type": "object",
-                      "x-is-free-form": false
+                      "type": "object"
                     },
                     "default_shipment_tags": {
                       "description": "List of ShipmentTag ids",
@@ -1116,8 +1113,7 @@
                   "custom_data": {
                     "additionalProperties": {},
                     "description": "Custom data for ShipmentLineItem",
-                    "type": "object",
-                    "x-is-free-form": false
+                    "type": "object"
                   },
                   "dry_ice_unit": {
                     "default": "LB",
@@ -1240,8 +1236,7 @@
             "custom_data": {
               "additionalProperties": {},
               "description": "Custom data for ShipmentMetadata",
-              "type": "object",
-              "x-is-free-form": false
+              "type": "object"
             },
             "customer_side_accessorial_charge_table": {
               "description": "Link to the AccessorialChargeTable used to access charges on the shipment customer",
@@ -1660,8 +1655,7 @@
                         "custom_data": {
                           "additionalProperties": {},
                           "description": "Custom data for CarrierCustomData",
-                          "type": "object",
-                          "x-is-free-form": false
+                          "type": "object"
                         },
                         "dba_name": {
                           "type": "string"
@@ -1778,8 +1772,7 @@
                     "custom_data": {
                       "additionalProperties": {},
                       "description": "Custom data for CompanyCustomData",
-                      "type": "object",
-                      "x-is-free-form": false
+                      "type": "object"
                     },
                     "feature_flags": {
                       "description": "Read-only set of boolean flags that describe what features\na Company has enabled\n",
@@ -2605,8 +2598,7 @@
                         "custom_data": {
                           "additionalProperties": {},
                           "description": "Custom data for CarrierCustomData",
-                          "type": "object",
-                          "x-is-free-form": false
+                          "type": "object"
                         },
                         "dba_name": {
                           "type": "string"
@@ -2723,8 +2715,7 @@
                     "custom_data": {
                       "additionalProperties": {},
                       "description": "Custom data for CompanyCustomData",
-                      "type": "object",
-                      "x-is-free-form": false
+                      "type": "object"
                     },
                     "feature_flags": {
                       "description": "Read-only set of boolean flags that describe what features\na Company has enabled\n",
@@ -3558,8 +3549,7 @@
                             "custom_data": {
                               "additionalProperties": {},
                               "description": "Custom data for CarrierCustomData",
-                              "type": "object",
-                              "x-is-free-form": false
+                              "type": "object"
                             },
                             "dba_name": {
                               "type": "string"
@@ -3676,8 +3666,7 @@
                         "custom_data": {
                           "additionalProperties": {},
                           "description": "Custom data for CompanyCustomData",
-                          "type": "object",
-                          "x-is-free-form": false
+                          "type": "object"
                         },
                         "feature_flags": {
                           "description": "Read-only set of boolean flags that describe what features\na Company has enabled\n",
@@ -4503,8 +4492,7 @@
                             "custom_data": {
                               "additionalProperties": {},
                               "description": "Custom data for CarrierCustomData",
-                              "type": "object",
-                              "x-is-free-form": false
+                              "type": "object"
                             },
                             "dba_name": {
                               "type": "string"
@@ -4621,8 +4609,7 @@
                         "custom_data": {
                           "additionalProperties": {},
                           "description": "Custom data for CompanyCustomData",
-                          "type": "object",
-                          "x-is-free-form": false
+                          "type": "object"
                         },
                         "feature_flags": {
                           "description": "Read-only set of boolean flags that describe what features\na Company has enabled\n",
@@ -5195,8 +5182,7 @@
                   "custom_data": {
                     "additionalProperties": {},
                     "description": "Custom data for User",
-                    "type": "object",
-                    "x-is-free-form": false
+                    "type": "object"
                   },
                   "default_shipment_tags": {
                     "description": "List of ShipmentTag ids",
@@ -5298,8 +5284,7 @@
                   "custom_data": {
                     "additionalProperties": {},
                     "description": "Custom data for User",
-                    "type": "object",
-                    "x-is-free-form": false
+                    "type": "object"
                   },
                   "default_shipment_tags": {
                     "description": "List of ShipmentTag ids",
@@ -5900,8 +5885,7 @@
               "custom_data": {
                 "additionalProperties": {},
                 "description": "Custom data for Stop",
-                "type": "object",
-                "x-is-free-form": false
+                "type": "object"
               },
               "display_eta_window": {
                 "type": "string"
@@ -6322,8 +6306,7 @@
                   "custom_data": {
                     "additionalProperties": {},
                     "description": "Custom data for User",
-                    "type": "object",
-                    "x-is-free-form": false
+                    "type": "object"
                   },
                   "default_shipment_tags": {
                     "description": "List of ShipmentTag ids",
@@ -6392,8 +6375,7 @@
               "custom_data": {
                 "additionalProperties": {},
                 "description": "Custom data for ShipmentTimelineEvents",
-                "type": "object",
-                "x-is-free-form": false
+                "type": "object"
               },
               "description": {
                 "type": "string"
@@ -6837,8 +6819,7 @@
                     "custom_data": {
                       "additionalProperties": {},
                       "description": "Custom data for CarrierCustomData",
-                      "type": "object",
-                      "x-is-free-form": false
+                      "type": "object"
                     },
                     "dba_name": {
                       "type": "string"
@@ -6955,8 +6936,7 @@
                 "custom_data": {
                   "additionalProperties": {},
                   "description": "Custom data for CompanyCustomData",
-                  "type": "object",
-                  "x-is-free-form": false
+                  "type": "object"
                 },
                 "feature_flags": {
                   "description": "Read-only set of boolean flags that describe what features\na Company has enabled\n",
@@ -7584,8 +7564,7 @@
                 "custom_data": {
                   "additionalProperties": {},
                   "description": "Custom data for CarrierCustomData",
-                  "type": "object",
-                  "x-is-free-form": false
+                  "type": "object"
                 },
                 "dba_name": {
                   "type": "string"
@@ -8344,8 +8323,7 @@
                     "custom_data": {
                       "additionalProperties": {},
                       "description": "Custom data for CarrierCustomData",
-                      "type": "object",
-                      "x-is-free-form": false
+                      "type": "object"
                     },
                     "dba_name": {
                       "type": "string"
@@ -8873,8 +8851,7 @@
                             "custom_data": {
                               "additionalProperties": {},
                               "description": "Custom data for CarrierCustomData",
-                              "type": "object",
-                              "x-is-free-form": false
+                              "type": "object"
                             },
                             "dba_name": {
                               "type": "string"
@@ -8991,8 +8968,7 @@
                         "custom_data": {
                           "additionalProperties": {},
                           "description": "Custom data for CompanyCustomData",
-                          "type": "object",
-                          "x-is-free-form": false
+                          "type": "object"
                         },
                         "feature_flags": {
                           "description": "Read-only set of boolean flags that describe what features\na Company has enabled\n",
@@ -9931,7 +9907,7 @@
       "delivery_date": "string",
       "display_earliest_pickup": "string",
       "earliest_pickup_date": "string",
-      "earliest_pickup_time": "string",
+      "earliest_pickup_time": "10:05:08-02:30",
       "equipment_type": {
         "id": 1,
         "machine_readable": "AUTO_CARRIER",

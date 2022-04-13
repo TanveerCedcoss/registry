@@ -309,8 +309,7 @@
                 "custom_data": {
                   "additionalProperties": {},
                   "description": "Custom data for CarrierCustomData",
-                  "type": "object",
-                  "x-is-free-form": false
+                  "type": "object"
                 },
                 "dba_name": {
                   "type": "string"
@@ -427,8 +426,7 @@
             "custom_data": {
               "additionalProperties": {},
               "description": "Custom data for CompanyCustomData",
-              "type": "object",
-              "x-is-free-form": false
+              "type": "object"
             },
             "feature_flags": {
               "description": "Read-only set of boolean flags that describe what features\na Company has enabled\n",
@@ -917,8 +915,7 @@
             "custom_data": {
               "additionalProperties": {},
               "description": "Custom data for User",
-              "type": "object",
-              "x-is-free-form": false
+              "type": "object"
             },
             "default_shipment_tags": {
               "description": "List of ShipmentTag ids",
@@ -1011,8 +1008,7 @@
         "custom_data": {
           "additionalProperties": {},
           "description": "Custom data for User",
-          "type": "object",
-          "x-is-free-form": false
+          "type": "object"
         },
         "default_shipment_tags": {
           "description": "List of ShipmentTag ids",
