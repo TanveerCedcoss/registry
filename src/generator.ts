@@ -80,7 +80,23 @@ function generateEntitySchema(schema: EntitySchema, baseDir: string) {
   (schema.schema as any)["default"] = mock(schema.schema as OpenAPIV3.SchemaObject);
   (schema.schema as any)["$schema"] = "https://json-schema.org/draft/2020-12/schema";
 
-  fs.writeFileSync(target, JSON.stringify(schema.schema, null, 2));
+  fs.writeFileSync(
+    target,
+    JSON.stringify(
+      schema.schema,
+      (key, value) => {
+        // Replacing OpenAPI example field with JSONSchema examples
+        // https://datatracker.ietf.org/doc/html/draft-bhutton-json-schema-validation-00#section-9.5
+        if (value?.example !== undefined) {
+          value.examples = [value.example];
+          delete value.example;
+        }
+
+        return value;
+      },
+      2,
+    ),
+  );
 
   return target;
 }
